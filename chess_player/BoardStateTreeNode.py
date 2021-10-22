@@ -1,11 +1,5 @@
 import chess
-from enum import Enum
 from Scorer import Scorer
-
-
-class Turn(Enum):
-    WHITE = 0
-    BLACK = 1
 
 
 class BoardStateTreeNode:
@@ -13,8 +7,8 @@ class BoardStateTreeNode:
         self._board = board
         self._move = move
         self._max_children = max_children
-        self._turn_color = Turn.WHITE
-        self._is_end_game = False
+        self._turn_color = chess.WHITE
+        self._is_end_game = board.is_game_over()
         self._children = list[BoardStateTreeNode]
 
     def populate_tree(self, depth: int):
