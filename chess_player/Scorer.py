@@ -15,6 +15,7 @@ class Scorer(ABC):
 class SimplifiedEvaluationFunction(Scorer):
     def __init__(self):
         super().__init__()
+        # We must mirror the array for white/black scoring since these boards aren't symmetrical
         self._black_pawn_scores = \
             [0, 0, 0, 0, 0, 0, 0, 0,
              50, 50, 50, 50, 50, 50, 50, 50,
@@ -87,17 +88,53 @@ class SimplifiedEvaluationFunction(Scorer):
 
     def evaluate(self, board: chess.Board) -> float:
         piece_map = board.piece_map()
+        white_score = 0
+        black_score = 0
         for index, piece in piece_map.items():
-            pass
+            if piece.symbol().islower():  # black piece
+                pass
+            else:  # white piece
+                pass
+        return white_score - black_score
 
     @staticmethod
     def is_endgame(board: chess.Board) -> bool:
-        piece_map = board.piece_map()
-        if 'q' not in piece_map.values() and 'Q' not in piece_map.values():
+        # Using an endgame definition from : https://www.chessprogramming.org/Simplified_Evaluation_Function
+        pieces = board.piece_map().values()
+        white_queen = chess.Piece.from_symbol('Q')
+        black_queen = chess.Piece.from_symbol('q')
+        # we're in the endgame if neither side has a queen
+        if black_queen not in pieces and white_queen not in pieces:
             return True
-        if 'q' in piece_map.values() and 'Q' in piece_map.values():
+        # we're not in the endgame if both sides have their queen
+        if black_queen in pieces and white_queen in pieces:
             return False
-        # TODO:  Every side which has a queen has additionally no other pieces or one minor piece maximum.
+        # we're in the endgame if either side with a queen has, at most, one minor piece
+        if black_queen in pieces:
+            black_minor_pieces_count = len(
+                [piece for piece in pieces if SimplifiedEvaluationFunction.is_black_minor_piece(piece)])
+            return black_minor_pieces_count <= 1
+        if white_queen in pieces:
+            white_minor_pieces_count = len(
+                [piece for piece in pieces if SimplifiedEvaluationFunction.is_white_minor_piece(piece)])
+            return white_minor_pieces_count <= 1
+
+    @staticmethod
+    def is_black_minor_piece(piece: chess.Piece):
+        if piece == chess.Piece.from_symbol('r') or \
+                piece == chess.Piece.from_symbol('b') or \
+                piece == chess.Piece.from_symbol('n'):
+            return True
+        return False
+
+    @staticmethod
+    def is_white_minor_piece(piece: chess.Piece):
+        if piece == chess.Piece.from_symbol('R') or \
+                piece == chess.Piece.from_symbol('B') or \
+                piece == chess.Piece.from_symbol('N'):
+            return True
+        return False
+
 
 # https://www.chessprogramming.org/PeSTO%27s_Evaluation_Function
 class PeSTOEvaluationFunction(Scorer):
