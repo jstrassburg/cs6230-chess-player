@@ -36,3 +36,8 @@ class TestSimplifiedEvaluationFunction(unittest.TestCase):
         board = chess.Board(fen='5brq/8/8/8/8/8/8/7K')
         actual = self._scorer.is_endgame(board)
         self.assertEqual(expected, actual)
+
+    def test_default_board_score(self):
+        expected = 0
+        actual = self._scorer.evaluate(self._board)
+        self.assertEqual(expected, actual)

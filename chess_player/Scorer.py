@@ -65,6 +65,7 @@ class SimplifiedEvaluationFunction(Scorer):
              -10, 5, 5, 5, 5, 5, 0, -10,
              -10, 0, 5, 0, 0, 0, 0, -10,
              -20, -10, -10, -5, -5, -10, -10, -20]
+        self._white_queen_scores = self._black_queen_scores[::-1]
         self._black_king_middle_game_scores = \
             [-30, -40, -40, -50, -50, -40, -40, -30,
              -30, -40, -40, -50, -50, -40, -40, -30,
@@ -90,11 +91,39 @@ class SimplifiedEvaluationFunction(Scorer):
         piece_map = board.piece_map()
         white_score = 0
         black_score = 0
+        is_endgame = self.is_endgame(board)
         for index, piece in piece_map.items():
-            if piece.symbol().islower():  # black piece
-                pass
-            else:  # white piece
-                pass
+            if piece == chess.Piece.from_symbol('p'):
+                black_score += self._black_pawn_scores[index]
+            if piece == chess.Piece.from_symbol('r'):
+                black_score += self._black_rook_scores[index]
+            if piece == chess.Piece.from_symbol('n'):
+                black_score += self._black_knight_scores[index]
+            if piece == chess.Piece.from_symbol('b'):
+                black_score += self._black_bishop_scores[index]
+            if piece == chess.Piece.from_symbol('q'):
+                black_score += self._black_queen_scores[index]
+            if piece == chess.Piece.from_symbol('k'):
+                if is_endgame:
+                    black_score += self._black_king_end_game_scores[index]
+                else:
+                    black_score += self._black_king_middle_game_scores[index]
+            if piece == chess.Piece.from_symbol('P'):
+                white_score += self._white_pawn_scores[index]
+            if piece == chess.Piece.from_symbol('R'):
+                white_score += self._white_rook_scores[index]
+            if piece == chess.Piece.from_symbol('N'):
+                white_score += self._white_knight_scores[index]
+            if piece == chess.Piece.from_symbol('B'):
+                white_score += self._white_bishop_scores[index]
+            if piece == chess.Piece.from_symbol('Q'):
+                white_score += self._white_queen_scores[index]
+            if piece == chess.Piece.from_symbol('K'):
+                if is_endgame:
+                    white_score += self._white_king_end_game_scores[index]
+                else:
+                    white_score += self._white_king_middle_game_scores[index]
+
         return white_score - black_score
 
     @staticmethod
