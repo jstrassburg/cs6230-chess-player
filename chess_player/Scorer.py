@@ -7,7 +7,7 @@ class Scorer(ABC):
         pass
 
     @abstractmethod
-    def evaluate(self, board: chess.Board) -> float:
+    def evaluate(self, board: chess.Board) -> int:
         pass
 
 
