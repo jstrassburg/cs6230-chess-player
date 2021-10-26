@@ -1,6 +1,7 @@
 import chess
 from random import sample
-from Scorer import Scorer
+
+from chess_player.Scorer import Scorer
 from statistics import mean
 
 
@@ -11,7 +12,7 @@ class BoardStateTreeNode:
         self._max_children = max_children
         self._turn_color = chess.WHITE
         self._is_end_game = board.is_game_over()
-        self._children = None
+        self._children = list()
 
     def populate_tree(self, depth: int):
         if depth == 0:

@@ -4,8 +4,8 @@ from chess_player.Scorer import SimplifiedEvaluationFunction, PeSTOEvaluationFun
 
 
 class TestSimplifiedEvaluationFunction(unittest.TestCase):
-    def setUp(self, board: chess.Board = None):
-        self._board = board if board is not None else chess.Board()
+    def setUp(self):
+        self._board = chess.Board()
         self._scorer = SimplifiedEvaluationFunction()
 
     def test_default_board_is_not_endgame(self):
