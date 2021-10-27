@@ -33,7 +33,7 @@ class TestSimplifiedEvaluationFunction(unittest.TestCase):
 
     def test_one_queen_and_two_other_pieces_is_not_endgame(self):
         expected = False
-        board = chess.Board(fen='5brq/8/8/8/8/8/8/7K')
+        board = chess.Board(fen='4kbrq/8/8/8/8/8/8/7K')
         actual = self._scorer.is_endgame(board)
         self.assertEqual(expected, actual)
 
