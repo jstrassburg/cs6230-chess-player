@@ -2,6 +2,7 @@ import chess
 from random import sample
 
 from chess_player.Scorer import Scorer
+from itertools import chain
 from statistics import mean
 
 
@@ -20,8 +21,9 @@ class BoardStateTreeNode:
         if depth == 0:
             return
 
-        all_legal_moves = self._board.legal_moves
-        moves = all_legal_moves if self._max_children is None else sample(list(all_legal_moves), self._max_children)
+        all_legal_moves = list(self._board.legal_moves)
+        moves = all_legal_moves if self._max_children is None or len(all_legal_moves) <= self._max_children \
+            else sample(all_legal_moves, self._max_children)
         self._children = [BoardStateTreeNode(self._board, move, self._max_children) for move in moves]
 
         for child in self._children:
@@ -39,9 +41,9 @@ class BoardStateTreeNode:
             my_score = scorer.evaluate(self._board)
             return [(my_score, self.move)]
         elif self.move is None:  # I am [G]root.
-            return [child.evaluate_moves(scorer, agg_func) for child in self._children]
+            return list(chain(*[child.evaluate_moves(scorer, agg_func) for child in self._children]))
         else:                    # It just takes some time. Little girl, you're in the middle of the ride(tree)
-            child_scores_and_moves = [child.evaluate_moves(scorer, agg_func) for child in self._children]
+            child_scores_and_moves = list(chain(*[child.evaluate_moves(scorer, agg_func) for child in self._children]))
             child_scores = list(zip(*child_scores_and_moves))[0]
             child_scores_agg = agg_func(child_scores)
             return [(child_scores_agg, self.move)]
