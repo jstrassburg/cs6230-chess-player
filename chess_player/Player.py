@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from BoardStateTreeNode import BoardStateTreeNode
+from chess_player.BoardStateTreeNode import BoardStateTreeNode
 import chess
 import random
 from statistics import mean
