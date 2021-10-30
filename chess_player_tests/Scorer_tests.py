@@ -1,6 +1,6 @@
 import unittest
 import chess
-from chess_player.Scorer import SimplifiedEvaluationFunction, PeSTOEvaluationFunction
+from chess_player.Scorer import SimplifiedEvaluationFunction
 
 
 class TestSimplifiedEvaluationFunction(unittest.TestCase):

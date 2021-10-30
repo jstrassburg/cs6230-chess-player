@@ -10,7 +10,7 @@ class TestChessGame(unittest.TestCase):
     def setUp(self) -> None:
         self._scorer = SimplifiedEvaluationFunction()
         self._white_player = RandomPlayer()
-        self._black_player = SearchPlayer(search_depth=2, score_func=self._scorer.evaluate)
+        self._black_player = SearchPlayer(search_depth=2, scorer=self._scorer)
 
     @unittest.mock.patch('sys.stdout', new_callable=io.StringIO)
     def test_print_game_stats_new_game(self, mock_stdout):
@@ -26,4 +26,3 @@ class TestChessGame(unittest.TestCase):
         game.print_game_stats()
         self.assertIn('The game is over', mock_stdout.getvalue())
         self.assertIn('Termination.CHECKMATE', mock_stdout.getvalue())
-    

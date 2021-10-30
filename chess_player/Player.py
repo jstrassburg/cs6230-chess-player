@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from chess_player.BoardStateTreeNode import BoardStateTreeNode
+from chess_player.Scorer import Scorer
 import chess
 import random
 from statistics import mean
@@ -34,10 +35,10 @@ class RandomPlayer(Player):
 
 
 class SearchPlayer(Player):
-    def __init__(self, search_depth, score_func, agg_func=mean, max_children=None):
+    def __init__(self, search_depth, scorer: Scorer, agg_func=mean, max_children=None):
         super().__init__()
         self._search_depth = search_depth
-        self._score_func = score_func
+        self._scorer = scorer
         self._agg_func = agg_func
         self._max_children = max_children
 
@@ -46,7 +47,7 @@ class SearchPlayer(Player):
         self._root.populate_tree(depth=self._search_depth)
 
     def _choose_move(self, turn) -> chess.Move:
-        scored_moves = self._root.evaluate_moves(self._score_func, self._agg_func)
+        scored_moves = self._root.evaluate_moves(self._scorer, self._agg_func)
         best_move = None
         best_move_score = 0.0
         for score, move in scored_moves:
