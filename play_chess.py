@@ -24,9 +24,11 @@ class Program:
               f"children for {self._args.max_turns} turns.")
         with open(self._args.outfile, 'a') as outfile:
             for i in range(self._args.iterations):
+                print(f"Playing game iteration {i}...")
                 start_time = perf_counter()
                 termination, winner_won, played_turns = self.play_chess()
                 run_time = perf_counter() - start_time
+                print(f"This game took: {run_time:0.2f} seconds...\n\n")
                 outfile.write(f"{self._args.search_depth},{self._args.max_children},{self._args.max_turns},"
                               f"{run_time:0.2f},{termination},{self._stronger},{winner_won},{played_turns}\n")
 
