@@ -19,6 +19,8 @@ class Program:
 
     def run(self):
         self.add_arguments_and_parse()
+        print(f"Playing chess with a search depth of {self._args.search_depth} and {self._args.max_children} "
+              f"children for {self._args.max_turns} turns.")
         with open(self._args.outfile, 'a') as outfile:
             for i in range(self._args.iterations):
                 start_time = perf_counter()

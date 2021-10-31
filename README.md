@@ -22,3 +22,6 @@ options:
                         Play until this many turns have been played. Default: 20
 ```
 
+# Experiments
+
+The experiments ran for the class assignment were executed via the script `experiements.ps1`.
