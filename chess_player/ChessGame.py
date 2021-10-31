@@ -10,7 +10,7 @@ class ChessGame:
         self._white_player = white_player
         self._black_player = black_player
         self._winner = 'Nobody won'
-        self._outcome = chess.Termination.SEVENTYFIVE_MOVES
+        self._outcome = board.outcome()
 
     def play_turn(self):
         if self._board.turn == chess.WHITE:
@@ -49,7 +49,7 @@ class ChessGame:
             termination = outcome.termination
         else:
             winner_won = "Nobody won"
-            termination = chess.Termination.SEVENTYFIVE_MOVES
+            termination = 'Termination.GAMENOTOVER'
         return termination, winner_won, self._played_turns
 
     def play_until(self, n_turns):
