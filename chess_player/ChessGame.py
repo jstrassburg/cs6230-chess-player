@@ -1,5 +1,6 @@
 import chess
 from chess_player.Player import Player
+from chess_player.Scorer import SimplifiedEvaluationFunction
 
 
 class ChessGame:
@@ -29,6 +30,10 @@ class ChessGame:
                     print(f"White is currently in check.")
                 else:
                     print(f"Black is currently in check.")
+            scorer = SimplifiedEvaluationFunction()
+            score = scorer.evaluate(self._board)
+            print(f"The current board score is: {score}.")
+            print(f"{'White' if score > 0 else 'Black'} is currently ahead.")
         else:
             print(f"The game is over after {self._played_turns} moves.")
             outcome = self._board.outcome()
