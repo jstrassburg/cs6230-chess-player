@@ -9,6 +9,8 @@ class ChessGame:
         self._played_turns = 0
         self._white_player = white_player
         self._black_player = black_player
+        self._winner = 'Nobody won'
+        self._outcome = chess.Termination.SEVENTYFIVE_MOVES
 
     def play_turn(self):
         if self._board.turn == chess.WHITE:
@@ -35,10 +37,20 @@ class ChessGame:
             print(f"The current board score is: {score}.")
             print(f"{'White' if score > 0 else 'Black'} is currently ahead.")
         else:
-            print(f"The game is over after {self._played_turns} moves.")
-            outcome = self._board.outcome()
-            print(f"{'White' if outcome.winner == chess.WHITE else 'Black'} won the game by {outcome.termination}!")
+            termination, winner_won, played_turns = self.get_results()
+            print(f"The game is over after {played_turns} moves.")
+            print(f"{winner_won} by {termination}!")
             print(f"The final board state was:\n\n{self._board}\n")
+
+    def get_results(self) -> (str, str, int):
+        outcome = self._board.outcome()
+        if outcome:
+            winner_won = f"{'White' if outcome.winner == chess.WHITE else 'Black'} won"
+            termination = outcome.termination
+        else:
+            winner_won = "Nobody won"
+            termination = chess.Termination.SEVENTYFIVE_MOVES
+        return termination, winner_won, self._played_turns
 
     def play_until(self, n_turns):
         while self._played_turns < n_turns and not self._board.is_game_over():

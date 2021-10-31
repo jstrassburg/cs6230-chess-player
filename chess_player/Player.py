@@ -13,7 +13,7 @@ class Player(ABC):
     def play_move(self, board: chess.Board):
         self._enumerate_game_states(board)
         move = self._choose_move(board.turn)
-        print(f"{'White' if board.turn == chess.WHITE else 'Black'} plays move {move.uci()}")
+        #  print(f"{'White' if board.turn == chess.WHITE else 'Black'} plays move {move.uci()}")
         board.push(move)
 
     @abstractmethod
