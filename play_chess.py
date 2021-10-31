@@ -45,8 +45,8 @@ class Program:
                                   help="How many levels deep to search for a good move. Default: 3")
         self._parser.add_argument("--max-children", dest="max_children", required=False, default=5, type=int,
                                   help="How many random legal moves will be evaluated. Default: 5")
-        self._parser.add_argument("--max-turns", dest="max_turns", required=False, default=20, type=int,
-                                  help="Play until this many turns have been played. Default: 20")
+        self._parser.add_argument("--max-turns", dest="max_turns", required=False, default=150, type=int,
+                                  help="Play until this many turns have been played. Default: 150")
         self._args = self._parser.parse_args()
 
 

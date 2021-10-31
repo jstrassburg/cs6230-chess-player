@@ -13,6 +13,7 @@ class Player(ABC):
     def play_move(self, board: chess.Board):
         self._enumerate_game_states(board)
         move = self._choose_move(board.turn)
+        print(f"{'White' if board.turn == chess.WHITE else 'Black'} plays move {move.uci()}")
         board.push(move)
 
     @abstractmethod
@@ -49,12 +50,14 @@ class SearchPlayer(Player):
     def _choose_move(self, turn) -> chess.Move:
         scored_moves = self._root.evaluate_moves(self._scorer, self._agg_func)
         best_move = None
-        best_move_score = 0.0
+        best_move_score = float('-inf') if turn == chess.WHITE else float('inf')
         for score, move in scored_moves:
             if turn == chess.WHITE:
                 if score > best_move_score:
                     best_move = move
+                    best_move_score = score
             else:
                 if score < best_move_score:
                     best_move = move
+                    best_move_score = score
         return best_move

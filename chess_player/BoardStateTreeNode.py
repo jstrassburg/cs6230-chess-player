@@ -1,6 +1,5 @@
 import chess
 from random import sample
-
 from chess_player.Scorer import Scorer
 from itertools import chain
 from statistics import mean

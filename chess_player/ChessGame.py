@@ -14,6 +14,7 @@ class ChessGame:
             self._white_player.play_move(self._board)
         else:
             self._black_player.play_move(self._board)
+        self._played_turns += 1
 
     def reset(self):
         self._board.reset()
@@ -30,7 +31,8 @@ class ChessGame:
                     print(f"Black is currently in check.")
         else:
             print(f"The game is over after {self._played_turns} moves.")
-            print(f"The game's outcome was: {self._board.outcome()}")
+            outcome = self._board.outcome()
+            print(f"{'White' if outcome.winner == chess.WHITE else 'Black'} won the game by {outcome.termination}!")
             print(f"The final board state was:\n\n{self._board}\n")
 
     def play_until(self, n_turns):
