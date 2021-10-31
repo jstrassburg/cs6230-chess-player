@@ -16,6 +16,7 @@ class Program:
         self._args = None
         self._parser = argparse.ArgumentParser(description="Play some chess")
         self._scorer = SimplifiedEvaluationFunction()
+        self._stronger = None
 
     def run(self):
         self.add_arguments_and_parse()
@@ -27,7 +28,7 @@ class Program:
                 termination, winner_won, played_turns = self.play_chess()
                 run_time = perf_counter() - start_time
                 outfile.write(f"{self._args.search_depth},{self._args.max_children},{self._args.max_turns},"
-                              f"{run_time:0.2f},{termination},{winner_won},{played_turns}\n")
+                              f"{run_time:0.2f},{termination},{self._stronger},{winner_won},{played_turns}\n")
 
     def play_chess(self) -> (str, str, int):
         search_depth = self._args.search_depth
@@ -39,11 +40,13 @@ class Program:
             white_player = SearchPlayer(
                 search_depth=search_depth, max_children=max_children, scorer=self._scorer)
             black_player = RandomPlayer()
+            self._stronger = 'White stronger'
         else:
             print(f"The black player should be stronger.")
             white_player = RandomPlayer()
             black_player = SearchPlayer(
                 search_depth=search_depth, max_children=max_children, scorer=self._scorer)
+            self._stronger = 'Black stronger'
 
         game = ChessGame(white_player=white_player, black_player=black_player)
         game.play_until(self._args.max_turns)
@@ -61,8 +64,8 @@ class Program:
                                   help="Play until this many turns have been played. Default: 150")
         self._parser.add_argument("--iterations", dest="iterations", required=False, default=10, type=int,
                                   help="How many iterations to run with this configuration. Default: 10")
-        self._parser.add_argument("--outfile", dest="outfile", required=False, default='results.csv', type=str,
-                                  help="Where to write the results. Default: results.csv")
+        self._parser.add_argument("--outfile", dest="outfile", required=False, default='chess-results.csv', type=str,
+                                  help="Where to write the results. Default: chess-results.csv")
         self._args = self._parser.parse_args()
 
 

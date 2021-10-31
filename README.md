@@ -7,8 +7,8 @@ A simple AI player implementaion for the game of chess. Developed for a project 
 virtualenv .env
 .env\Scripts\activate
 pip install -r requirements.txt
-python play_chess.py  --help
-usage: play_chess.py [-h] [--search-depth SEARCH_DEPTH] [--max-children MAX_CHILDREN] [--max-turns MAX_TURNS]
+python .\play_chess.py --help
+usage: play_chess.py [-h] [--search-depth SEARCH_DEPTH] [--max-children MAX_CHILDREN] [--max-turns MAX_TURNS] [--iterations ITERATIONS] [--outfile OUTFILE]
 
 Play some chess
 
@@ -19,7 +19,10 @@ options:
   --max-children MAX_CHILDREN
                         How many random legal moves will be evaluated. Default: 5
   --max-turns MAX_TURNS
-                        Play until this many turns have been played. Default: 20
+                        Play until this many turns have been played. Default: 150
+  --iterations ITERATIONS
+                        How many iterations to run with this configuration. Default: 10
+  --outfile OUTFILE     Where to write the results. Default: chess-results.csv
 ```
 
 # Experiments

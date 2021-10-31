@@ -44,7 +44,7 @@ class ChessGame:
 
     def get_results(self) -> (str, str, int):
         outcome = self._board.outcome()
-        if outcome:
+        if outcome and outcome.winner:
             winner_won = f"{'White' if outcome.winner == chess.WHITE else 'Black'} won"
             termination = outcome.termination
         else:
